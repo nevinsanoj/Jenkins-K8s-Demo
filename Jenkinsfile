@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        KUBECTL = 'C:\Users\nevin\AppData\Local\Programs\DockerDesktop\resources\bin\kubectl.exe'
-        KUBECONFIG = 'C:\Users\nevin\.kube\config'
+        KUBECTL = 'C:/Users/nevin/AppData/Local/Programs/DockerDesktop/resources/bin/kubectl.exe'
+        KUBECONFIG = 'C:/Users/nevin/.kube/config'
     }
 
     stages {
