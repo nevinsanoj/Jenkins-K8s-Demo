@@ -1,7 +1,13 @@
 pipeline {
     agent any
 
+    environment {
+        KUBECTL = 'C:\Users\nevin\AppData\Local\Programs\DockerDesktop\resources\bin\kubectl.exe'
+        KUBECONFIG = 'C:\Users\nevin\.kube\config'
+    }
+
     stages {
+
         stage('Clone Repository') {
             steps {
                 checkout scm
@@ -10,21 +16,24 @@ pipeline {
 
         stage('Verify Kubernetes') {
             steps {
-                bat 'kubectl get nodes'
+                bat '"%KUBECTL%" version --client'
+                bat '"%KUBECTL%" get nodes'
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
-                bat 'kubectl apply -f deployment.yaml'
+                bat '"%KUBECTL%" apply -f deployment.yaml'
+                bat '"%KUBECTL%" apply -f pvc.yaml'
+                bat '"%KUBECTL%" apply -f pvc-test-pod.yaml'
             }
         }
 
         stage('Verify Deployment') {
             steps {
-                bat 'kubectl rollout status deployment/online-book-store'
-                bat 'kubectl get pods'
-                bat 'kubectl get svc'
+                bat '"%KUBECTL%" rollout status deployment/online-book-store'
+                bat '"%KUBECTL%" get pods'
+                bat '"%KUBECTL%" get svc'
             }
         }
     }
