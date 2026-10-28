@@ -21,19 +21,15 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
+        stage('Create Kubernetes Pod') {
             steps {
-                bat '"%KUBECTL%" apply -f deployment.yaml'
-                bat '"%KUBECTL%" apply -f pvc.yaml'
-                bat '"%KUBECTL%" apply -f pvc-test-pod.yaml'
+                bat '"%KUBECTL%" apply -f pod.yaml'
             }
         }
 
-        stage('Verify Deployment') {
+        stage('Verify Pod') {
             steps {
-                bat '"%KUBECTL%" rollout status deployment/online-book-store'
-                bat '"%KUBECTL%" get pods'
-                bat '"%KUBECTL%" get svc'
+                bat '"%KUBECTL%" get pod jenkins-k8s-demo-pod'
             }
         }
     }
